@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+.body {
+    font-family: "Inter", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: rgb(220, 237, 248);
+}
+
+.container {
+    display: flex;
+    font-family: "Inter", sans-serif;
+    background-color: white;
+    box-shadow: 0 0 10px #365669;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 550px;
+}
+
+.image-container {
+    flex: 1;
+}
+
+.image-container img {
+    width: 100%;
+    height: 90%;
+}
+
+.signup {
+    font-family: "Inter", sans-serif;
+    flex: 1;
+    padding-left: 40px;
+    padding-right: 50px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    width: 100px;
+}
+
+h1 {
+    font-family: "Inter", sans-serif;
+    margin-bottom: 20px;
+}
+
+form {
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-family: "Inter", sans-serif;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    font-family: "Inter", sans-serif;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.f1 {
+    margin-bottom: 10px;
+    opacity: 0.5;
+    border: 1px red;
+}
+
+#p1 {
+    font-family: "Inter", sans-serif;
+    text-align: right;
+    margin-top: 10px;
+}
+
+#register {
+    font-family: "Inter", sans-serif;
+    width: 100%;
+    margin-left: 0;
+}
+
+#t1 {
+    font-family: "Inter", sans-serif;
+}
