@@ -3,25 +3,8 @@ import { useState } from 'react';
 import {Link} from 'react-router-dom'
 import '../styles/Signup.css'; 
 import signup from "../image/main.jpg"
-import {EMAIL_REGEX} from '../constants.js'
+import {validate} from '../helper/signupValidate.js'
 import {notify} from '../util/notify.js'
-const validate = (formData)=>{
-    const newFormError = {};
-    if(!formData.userName){
-        newFormError.userName = 'User name is required'
-    }
-    if(!formData.email){
-        newFormError.email = 'Email is required'
-    }else if(!EMAIL_REGEX.test(formData.email)){
-        newFormError.email = 'Email address is not valid'
-    }
-    if(!formData.password){
-        newFormError.password = 'Password is required'
-    }else if(formData.password.length < 6){
-        newFormError.password = 'Password should be at least 6 characters long'
-    }
-    return newFormError
-}   
 
 export default function SignUp() {
     const [formData,setFormData] = useState({
@@ -41,6 +24,7 @@ export default function SignUp() {
         const validationError = validate(formData);
 
         if(!Object.keys(validationError).length){
+            //TODO: Send data into server
             console.log("Ok")
         }else{
            Object.values(validationError).forEach((error)=> notify(error))
