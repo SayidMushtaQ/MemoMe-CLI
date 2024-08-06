@@ -19,13 +19,20 @@ export default function SignUp() {
             [name]:value
         })
     }
-    const handleSubmit = (e)=>{ 
+    const handleSubmit = async (e)=>{ 
         e.preventDefault();
         const validationError = validate(formData);
 
         if(!Object.keys(validationError).length){
-            //TODO: Send data into server
-            console.log("Ok")
+            const res = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({...formData})
+              });
+              const data = await res.json();
+              console.log(data);
         }else{
            Object.values(validationError).forEach((error)=> notify(error))
         }
