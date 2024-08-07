@@ -27,18 +27,18 @@ export default function Verify(){
     const handleSubmit = async (e)=>{
         e.preventDefault()
         try{
-            const res = await  fetch('/auth/verifyEmail', {
+            const res = await  fetch('/api/auth/verifyEmail', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({userIdentifier:user_email,otp:otp.join()})
+                body: JSON.stringify({userIdentifier:user_email,otp:otp.join('')})
             })
             if(!res.ok){
                 return ErrorNotify("Something went wrong. Please try again 🫡");
               }
             const data = await res.json();
-            if(data.data.success && res.ok){
+            if(data.success && res.ok){
                 localStorage.removeItem('user_email');
                 SuccessNotify("User verification successful🎉")
                 return navigate('/login')
