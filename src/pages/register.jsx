@@ -1,12 +1,13 @@
 
 import { useState } from 'react';
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
 import '../styles/Signup.css'; 
 import signup from "../image/main.jpg"
 import {validate} from '../helper/signupValidate.js'
-import {notify} from '../util/notify.js'
+import {ErrorNotify, SuccessNotify} from '../util/notify.js'
 
 export default function SignUp() {
+    const navigate = useNavigate()
     const [formData,setFormData] = useState({
         userName:"",
         email:"",
@@ -24,17 +25,28 @@ export default function SignUp() {
         const validationError = validate(formData);
 
         if(!Object.keys(validationError).length){
-            const res = await fetch('/api/auth/register', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({...formData})
-              });
-              const data = await res.json();
-              console.log(data);
+            try{
+                const res = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({...formData})
+                  });
+                  if(!res.ok && res.status==409){
+                    return ErrorNotify("User Already Exists, please LOGIN 🐢");
+                  }
+                  const data = await res.json();
+                  if(data.success && res.ok){
+                    navigate("/login")
+                    return SuccessNotify("User register Successfully..!!🚀")
+                  }
+            }catch(err){
+                console.log(err)
+                ErrorNotify("An error occurred while creating the user. Please try again 🫡🫠")
+            }
         }else{
-           Object.values(validationError).forEach((error)=> notify(error))
+           Object.values(validationError).forEach((error)=> ErrorNotify(error))
         }
     }
 
