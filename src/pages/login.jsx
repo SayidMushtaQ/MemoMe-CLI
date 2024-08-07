@@ -4,7 +4,7 @@ import '../styles/Signin.css';
 import signin from "../image/main_2.jpg"
 import {useState} from 'react'
 import {validate} from '../helper/signinValidate.js'
-import {notify} from '../util/notify.js'
+import {ErrorNotify} from '../util/notify.js'
 export default function Signin() {
     const [formData,setFormData] = useState({
         userInput:"",
@@ -24,7 +24,7 @@ export default function Signin() {
             //TODO: Send data into server
             console.log("Ok")
         }else{
-           Object.values(validationError).forEach((error)=> notify(error))
+           Object.values(validationError).forEach((error)=> ErrorNotify(error))
         }
     }
 
