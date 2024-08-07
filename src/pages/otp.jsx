@@ -1,9 +1,11 @@
 
 import { useRef, useState } from 'react';
 import '../styles/otp.css'; 
-import {ErrorNotify} from '../util/notify'
+import {ErrorNotify,SuccessNotify} from '../util/notify'
+import {useNavigate} from 'react-router-dom'
 
 export default function Verify(){
+    const navigate = useNavigate()
     const user_email = localStorage.getItem('user_email');
     const [otp,setOtp] = useState(new Array(4).fill(''));
     const otpBoxRef = useRef([]);
@@ -32,8 +34,15 @@ export default function Verify(){
                 },
                 body: JSON.stringify({userIdentifier:user_email,otp:otp.join()})
             })
+            if(!res.ok){
+                return ErrorNotify("Something went wrong. Please try again 🫡");
+              }
             const data = await res.json();
-            console.log(data)
+            if(data.data.success && res.ok){
+                localStorage.removeItem('user_email');
+                SuccessNotify("User verification successful🎉")
+                return navigate('/login')
+            }
         }catch(err){
             console.log(err);
             return ErrorNotify("An error occurred while creating the user. Please try again 🫡🫠")
