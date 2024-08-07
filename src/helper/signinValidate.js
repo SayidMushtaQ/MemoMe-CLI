@@ -1,8 +1,8 @@
 
 export const validate = (formData) => {
   const newFormError = {};
-  if (!formData.userInput) {
-    newFormError.userInput = "Email or userName is required";
+  if (!formData.userIdentifier) {
+    newFormError.userIdentifier = "Email or userName is required";
   }
   if (!formData.password) {
     newFormError.password = "Password is required";

@@ -4,10 +4,12 @@ import '../styles/Signin.css';
 import signin from "../image/main_2.jpg"
 import {useState} from 'react'
 import {validate} from '../helper/signinValidate.js'
-import {ErrorNotify} from '../util/notify.js'
+import {ErrorNotify,SuccessNotify} from '../util/notify.js'
+import {useNavigate} from 'react-router-dom'
 export default function Signin() {
+    const navigate = useNavigate();
     const [formData,setFormData] = useState({
-        userInput:"",
+        userIdentifier:"",
         password:""
     })
     const handleChange = (e)=>{
@@ -17,12 +19,31 @@ export default function Signin() {
             [name]:value
         })
     }
-    const handleSubmit = (e)=>{ 
+    const handleSubmit = async (e)=>{ 
         e.preventDefault();
         const validationError = validate(formData)
         if(!Object.keys(validationError).length){
-            //TODO: Send data into server
-            console.log("Ok")
+            try{
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({...formData})
+                  });
+                  if(!res.ok){
+                    return ErrorNotify("Something went wrong during LOGIN,try again.");
+                  }
+                  const data = await res.json();
+                  if(data.success){
+                    SuccessNotify("User loged in successfully 🚀🥳")
+                    return navigate('/')
+                  }
+                
+            } catch(err){
+                console.log(err)
+                return ErrorNotify("An error occurred while creating the user. Please try again 🫡🫠")
+            }
         }else{
            Object.values(validationError).forEach((error)=> ErrorNotify(error))
         }
@@ -43,7 +64,7 @@ export default function Signin() {
                                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
                             </svg> Username or email
                         </label>
-                        <input type="text" id="userInput" name="userInput" placeholder="Enter your name" onChange={handleChange} />
+                        <input type="text" id="userIdentifier" name="userIdentifier" placeholder="Enter your name" onChange={handleChange} />
 
                         <label htmlFor="password">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-lock-fill" viewBox="0 0 16 16">
