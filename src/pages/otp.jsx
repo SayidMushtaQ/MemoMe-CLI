@@ -1,6 +1,7 @@
 
 import { useRef, useState } from 'react';
 import '../styles/otp.css'; 
+import {ErrorNotify} from '../util/notify'
 
 export default function Verify(){
     const user_email = localStorage.getItem('user_email');
@@ -23,7 +24,20 @@ export default function Verify(){
     }
     const handleSubmit = async (e)=>{
         e.preventDefault()
-        
+        try{
+            const res = await  fetch('/auth/verifyEmail', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({userIdentifier:user_email,otp:otp.join()})
+            })
+            const data = await res.json();
+            console.log(data)
+        }catch(err){
+            console.log(err);
+            return ErrorNotify("An error occurred while creating the user. Please try again 🫡🫠")
+        }
     }
     return(
         <>

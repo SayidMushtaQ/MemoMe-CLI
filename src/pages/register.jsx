@@ -5,7 +5,7 @@ import '../styles/Signup.css';
 import signup from "../image/main.jpg"
 import {validate} from '../helper/signupValidate.js'
 import {ErrorNotify, SuccessNotify} from '../util/notify.js'
-
+import {sendVerifyCode} from '../util/sendVerifyCode.js'
 export default function SignUp() {
     const navigate = useNavigate()
     const [formData,setFormData] = useState({
@@ -37,14 +37,19 @@ export default function SignUp() {
                     return ErrorNotify("User Already Exists, please LOGIN 🐢");
                   }
                   const data = await res.json();
+
                   if(data.success && res.ok){
-                    navigate("/verify");
-                    localStorage.setItem('user_email',data.data.email);
-                    return SuccessNotify("User register Successfully..!!🚀")
+                    SuccessNotify("User register Successfully..!!🚀")
+                    const {otpRes} = await sendVerifyCode(data.data.email)
+                    if(otpRes.ok && otpRes.status === 200){
+                         localStorage.setItem('user_email',data.data.email)
+                         SuccessNotify("OTP has been sent to your email successfully")
+                    }
+                    return navigate('/verify')
                   }
             }catch(err){
                 console.log(err)
-                ErrorNotify("An error occurred while creating the user. Please try again 🫡🫠")
+                return ErrorNotify("An error occurred while creating the user. Please try again 🫡🫠")
             }
         }else{
            Object.values(validationError).forEach((error)=> ErrorNotify(error))
