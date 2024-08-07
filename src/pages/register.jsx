@@ -38,7 +38,7 @@ export default function SignUp() {
                   }
                   const data = await res.json();
                   if(data.success && res.ok){
-                    navigate("/login")
+                    navigate("/verify")
                     return SuccessNotify("User register Successfully..!!🚀")
                   }
             }catch(err){
