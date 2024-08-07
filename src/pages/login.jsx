@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import '../styles/Signin.css'; 
 import signin from "../image/main_2.jpg"
 import {useState} from 'react'
-import {validate} from '../helper/signinValidate'
+import {validate} from '../helper/signinValidate.js'
 import {notify} from '../util/notify.js'
 export default function Signin() {
     const [formData,setFormData] = useState({
