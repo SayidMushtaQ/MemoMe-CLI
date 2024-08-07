@@ -38,7 +38,8 @@ export default function SignUp() {
                   }
                   const data = await res.json();
                   if(data.success && res.ok){
-                    navigate("/verify")
+                    navigate("/verify");
+                    localStorage.setItem('user_email',data.data.email);
                     return SuccessNotify("User register Successfully..!!🚀")
                   }
             }catch(err){
