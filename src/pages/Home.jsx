@@ -3,6 +3,15 @@ import "../styles/Home.css";
 import { validate } from "../helper/homeValidate";
 import { useState, useEffect } from "react";
 import { ErrorNotify, SuccessNotify } from "../util/notify";
+const getColor = (index) => {
+  if (index % 3 === 0) { //0,3,6,9,12
+    return "red";
+  } else if (index % 3 === 1) { //1,4,,7,10
+    return "yellow";
+  } else { 
+    return "blue";
+  }
+};
 export default function Home() {
   const [formData, setFormData] = useState({
     title: "",
@@ -25,7 +34,9 @@ export default function Home() {
         if (data.success) {
           setNotes((preNotes) => {
             const updateNotes = [data.data, ...preNotes];
-            return updateNotes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            return updateNotes.sort(
+              (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+            );
           });
           setFormData({ title: "", description: "" });
           return SuccessNotify("Note created successfully🥳");
@@ -43,7 +54,11 @@ export default function Home() {
     fetch("/api/note/notes")
       .then((res) => res.json())
       .then(({ data }) => {
-        setNotes(data.notes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+        setNotes(
+          data.notes.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          )
+        );
       });
   }, [setNotes]);
   const frmatingDate = (timestamp) => {
@@ -130,8 +145,8 @@ export default function Home() {
       <section className="all-notes">
         <div className="notes-grid">
           {notes.length !== 0 ? (
-            notes.map((item) => (
-              <div key={item._id} className="note-card red">
+            notes.map((item, index) => (
+              <div key={item._id} className={`note-card ${getColor(index)}`}>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
                 <span className="timestamp">
