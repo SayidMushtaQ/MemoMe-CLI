@@ -105,6 +105,8 @@ li.icon{
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-family: "Inter", sans-serif;
     padding: 20px;
+    position: relative;
+    
 }
 
 .note-card h3 {
@@ -157,4 +159,23 @@ form{
 #Signin{
     color: rgb(255, 255, 255);
     text-decoration: none;
+}
+.card-action{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+}
+.card-action button{
+    border: none;
+    padding: 3px;
+    border-radius: 5px;
+    margin: 5px;
+}
+.card-action button svg{
+    width: 20px;
+    height: 18px;
+}
+.note-card:hover .card-action{
+    display: block;
 }
