@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { validate } from "../helper/homeValidate";
-import { ErrorNotify } from "../util/notify";
-export default function HandleEdit({title,description}) {
+import { ErrorNotify, SuccessNotify } from "../util/notify";
+export default function Edit({ title, description, noteID, setNotes }) {
   const [edit, setEdit] = useState(false);
   const [formData, setFormData] = useState({
     title,
@@ -12,7 +12,27 @@ export default function HandleEdit({title,description}) {
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
-        console.log('ok')
+        const res = await fetch("/api/note/update", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...formData, noteID }),
+        });
+        const data = await res.json();
+        
+        if (data.success) {
+          setNotes((preNotes) => {
+            const updatedNotes = preNotes
+              .filter((item) => item._id !== noteID)
+              .concat(data.data)
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+            return updatedNotes;
+          });
+          setEdit(false);
+          return SuccessNotify("Note updated successfully 🥳");
+        }
       } catch (err) {
         return ErrorNotify(
           "An error occurred while creating the note. Please try again 🫡🫠"

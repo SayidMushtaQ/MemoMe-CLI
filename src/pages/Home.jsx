@@ -3,7 +3,8 @@ import "../styles/Home.css";
 import { validate } from "../helper/homeValidate";
 import { useState, useEffect } from "react";
 import { ErrorNotify, SuccessNotify } from "../util/notify";
-import HandleEdit from '../components/handleEdit'
+import Edit from "../components/cardEdit";
+import Delete from "../components/cardDelete";
 const getColor = (index) => {
   if (index % 3 === 0) {
     //0,3,6,9,12
@@ -20,7 +21,7 @@ export default function Home() {
     title: "",
     description: "",
   });
- 
+
   const [notes, setNotes] = useState([]);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,51 +98,53 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="h2">
-          <h1>TAKE YOUR NOTES</h1>
-        </div>
+        <div className="home-wrapper">
+          <div className="h2">
+            <h1>TAKE YOUR NOTES</h1>
+          </div>
 
-        <div className="container add">
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="exampleFormControlInput1" className="leb">
-                Add a Title
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                name="title"
-                id="exampleFormControlInput1"
-                placeholder="Add title"
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
-                value={formData.title}
-              />
-            </div>
+          <div className="container add">
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="exampleFormControlInput1" className="leb">
+                  Add a Title
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="title"
+                  id="exampleFormControlInput1"
+                  placeholder="Add title"
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
+                  value={formData.title}
+                />
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="exampleFormControlTextarea1" className="leb">
-                Add a Note
-              </label>
-              <textarea
-                className="form-control"
-                name="description"
-                id="exampleFormControlTextarea1"
-                rows="3"
-                placeholder="Write something"
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
-                value={formData.description}
-              ></textarea>
-            </div>
-            <button className="btn btn-success">Add Note</button>
-          </form>
-        </div>
+              <div className="form-group">
+                <label htmlFor="exampleFormControlTextarea1" className="leb">
+                  Add a Note
+                </label>
+                <textarea
+                  className="form-control"
+                  name="description"
+                  id="exampleFormControlTextarea1"
+                  rows="3"
+                  placeholder="Write something"
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
+                  value={formData.description}
+                ></textarea>
+              </div>
+              <button className="btn btn-success">Add Note</button>
+            </form>
+          </div>
 
-        <div className="container all">
-          <h2>All Your Notes</h2>
+          <div className="container all">
+            <h2>All Your Notes</h2>
+          </div>
         </div>
         <div></div>
       </div>
@@ -157,20 +160,13 @@ export default function Home() {
                   {frmatingDate(item.createdAt)}
                 </span>
                 <div className="card-action">
-                  <button aria-labelledby="Delete">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      x="0px"
-                      y="0px"
-                      width="100"
-                      height="100"
-                      viewBox="0 0 72 72"
-                      fill="#e74c3c"
-                    >
-                      <path  d="M 32 13 C 30.895 13 30 13.895 30 15 L 30 16 L 17 16 C 14.791 16 13 17.791 13 20 C 13 21.973645 14.432361 23.602634 16.3125 23.929688 L 18.707031 52.664062 C 19.053031 56.811062 22.520641 60 26.681641 60 L 45.318359 60 C 49.479359 60 52.945969 56.811062 53.292969 52.664062 L 55.6875 23.929688 C 57.567639 23.602634 59 21.973645 59 20 C 59 17.791 57.209 16 55 16 L 42 16 L 42 15 C 42 13.895 41.105 13 40 13 L 32 13 z M 24.347656 24 L 47.652344 24 L 45.396484 51.082031 C 45.352484 51.600031 44.918438 52 44.398438 52 L 27.601562 52 C 27.081562 52 26.647469 51.600031 26.605469 51.082031 L 24.347656 24 z"></path>
-                    </svg>
-                  </button>
-                  <HandleEdit title={item.title} description={item.description}/>
+                  <Delete noteID={item._id} />
+                  <Edit
+                    title={item.title}
+                    description={item.description}
+                    noteID={item._id}
+                    setNotes={setNotes}
+                  />
                 </div>
               </div>
             ))
