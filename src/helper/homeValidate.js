@@ -4,7 +4,7 @@ export const validate = (formData) => {
     newFormError.title = "Title is required field 😪";
   } else if (formData.title.length < 20) {
     newFormError.title = "The title is too short (at least 20 characters) 🩳";
-  } else if (formData.title.length > 30) {
+  } else if (formData.title.length > 35) {
     newFormError.title = "The title is too long (maximum of 30 characters)🪘";
   }
   if (!formData.description) {
