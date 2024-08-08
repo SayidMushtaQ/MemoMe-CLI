@@ -1,11 +1,31 @@
 import { useState } from "react";
-
-export default function HandleEdit() {
+import { validate } from "../helper/homeValidate";
+import { ErrorNotify } from "../util/notify";
+export default function HandleEdit({title,description}) {
   const [edit, setEdit] = useState(false);
-  if(edit){
-    document.body.classList.add('active-model')
-  }else{
-    document.body.classList.remove('active-model')
+  const [formData, setFormData] = useState({
+    title,
+    description,
+  });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationError = validate(formData);
+    if (!Object.keys(validationError).length) {
+      try {
+        console.log('ok')
+      } catch (err) {
+        return ErrorNotify(
+          "An error occurred while creating the note. Please try again 🫡🫠"
+        );
+      }
+    } else {
+      Object.values(validationError).forEach((error) => ErrorNotify(error));
+    }
+  };
+  if (edit) {
+    document.body.classList.add("active-model");
+  } else {
+    document.body.classList.remove("active-model");
   }
   return (
     <>
@@ -28,8 +48,11 @@ export default function HandleEdit() {
       </button>
       {edit && (
         <div className="edit-container">
-          <div className="edit-sub-container" onSubmit={(e)=>e.preventDefault()}>
-            <form>
+          <div
+            className="edit-sub-container"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="exampleFormControlInput1" className="leb">
                   Add New Title
@@ -40,6 +63,10 @@ export default function HandleEdit() {
                   name="title"
                   id="exampleFormControlInput1"
                   placeholder="Add title"
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
+                  value={formData.title}
                 />
               </div>
 
@@ -53,11 +80,15 @@ export default function HandleEdit() {
                   id="exampleFormControlTextarea1"
                   rows={3}
                   placeholder="Write something"
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
+                  value={formData.description}
                 ></textarea>
               </div>
               <div className="edit-buttons">
-                <button onClick={()=>setEdit(false)}>Cancel</button>
-                <button>Edit</button>
+                <button onClick={() => setEdit(false)}>Cancel</button>
+                <button type="submit">Edit</button>
               </div>
             </form>
           </div>
