@@ -1,7 +1,56 @@
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
-
+import { validate } from "../helper/homeValidate";
+import { useState, useEffect } from "react";
+import { ErrorNotify, SuccessNotify } from "../util/notify";
 export default function Home() {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+  });
+  const [notes, setNotes] = useState([]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationError = validate(formData);
+    if (!Object.keys(validationError).length) {
+      try {
+        const res = await fetch("/api/note/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...formData }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          console.log(data);
+          setNotes(preNote=>[data.data,...preNote])
+          setFormData({ title: "", description: "" });
+          return SuccessNotify("Note created successfully🥳");
+        }
+      } catch (err) {
+        return ErrorNotify(
+          "An error occurred while creating the note. Please try again 🫡🫠"
+        );
+      }
+    } else {
+      Object.values(validationError).forEach((error) => ErrorNotify(error));
+    }
+  };
+  useEffect(() => {
+    fetch("/api/note/notes")
+      .then((res) => res.json())
+      .then(({ data }) => setNotes(data.notes));
+  }, [setNotes]);
+  const frmatingDate = (timestamp)=>{
+    const date = new Date(timestamp);
+    const optionsTime = { hour: '2-digit', minute: '2-digit' };
+    const optionsDate = { day: '2-digit', month: 'long', year: 'numeric' };
+    const time = date.toLocaleTimeString('en-GB', optionsTime); // '09:38'
+    const formattedDate = date.toLocaleDateString('en-GB', optionsDate).toUpperCase();
+
+    return `${time} | ${formattedDate}`
+  }
   return (
     <>
       <div className="container-fuit nav">
@@ -28,7 +77,7 @@ export default function Home() {
         </div>
 
         <div className="container add">
-          <form action="#" method="get">
+          <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="exampleFormControlInput1" className="leb">
                 Add a Title
@@ -36,9 +85,13 @@ export default function Home() {
               <input
                 type="text"
                 className="form-control"
-                name="exampleFormControlInput1"
+                name="title"
                 id="exampleFormControlInput1"
                 placeholder="Add title"
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
+                value={formData.title}
               />
             </div>
 
@@ -48,10 +101,14 @@ export default function Home() {
               </label>
               <textarea
                 className="form-control"
-                name="exampleFormControlTextarea1"
+                name="description"
                 id="exampleFormControlTextarea1"
                 rows="3"
                 placeholder="Write something"
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+                value={formData.description}
               ></textarea>
             </div>
             <button className="btn btn-success">Add Note</button>
@@ -66,36 +123,19 @@ export default function Home() {
 
       <section className="all-notes">
         <div className="notes-grid">
-          <div className="note-card red">
-            <h3>RAJDEEP</h3>
-            <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Explicabo recusandae aut in beatae sequi esse ducimus illum
-              maiores veniam, aliquam odio dignissimos deserunt perferendis ab
-              assumenda suscipit dicta dolore placeat.
-            </p>
-            <span className="timestamp">09:38 | 16 JULY 2024</span>
-          </div>
-          <div className="note-card yellow">
-            <h3>RAJDEEP</h3>
-            <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum
-              reprehenderit expedita eveniet nisi minima provident hic
-              architecto magnam sunt est, temporibus velit ut exercitationem
-              dicta voluptatibus, blanditiis reiciendis pariatur culpa?
-            </p>
-            <span className="timestamp">09:38 | 16 JULY 2024</span>
-          </div>
-          <div className="note-card blue">
-            <h3>RAJDEEP</h3>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
-              est ab eveniet. Voluptas consequuntur aperiam suscipit qui, nemo
-              beatae voluptatibus veniam nesciunt natus eligendi iure magni
-              expedita, neque sapiente velit?
-            </p>
-            <span className="timestamp">09:38 | 16 JULY 2024</span>
-          </div>
+          {notes.length !== 0 ? notes.map((item) => (
+              <div key={item._id} className="note-card red">
+                <h3>{item.title}</h3>
+                <p>
+                 {item.description}
+                </p>
+                <span className="timestamp">{frmatingDate(item.createdAt)}</span>
+              </div>
+          )):(
+            <div>
+              <span>Oops, it looks like you don&apos;t have any notes . . .</span>
+            </div>
+          )}
         </div>
       </section>
     </>

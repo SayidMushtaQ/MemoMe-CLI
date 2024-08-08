@@ -109,11 +109,13 @@ li.icon{
 
 .note-card h3 {
     margin-top: 0;
+    font-size: 20px;
 }
 
 .note-card p {
     flex-grow: 1;
     color: black;
+    font-size: 15px;
 }
 
 .note-card .timestamp {
