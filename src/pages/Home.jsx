@@ -23,8 +23,10 @@ export default function Home() {
         });
         const data = await res.json();
         if (data.success) {
-          console.log(data);
-          setNotes(preNote=>[data.data,...preNote])
+          setNotes((preNotes) => {
+            const updateNotes = [data.data, ...preNotes];
+            return updateNotes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          });
           setFormData({ title: "", description: "" });
           return SuccessNotify("Note created successfully🥳");
         }
@@ -40,17 +42,21 @@ export default function Home() {
   useEffect(() => {
     fetch("/api/note/notes")
       .then((res) => res.json())
-      .then(({ data }) => setNotes(data.notes));
+      .then(({ data }) => {
+        setNotes(data.notes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+      });
   }, [setNotes]);
-  const frmatingDate = (timestamp)=>{
+  const frmatingDate = (timestamp) => {
     const date = new Date(timestamp);
-    const optionsTime = { hour: '2-digit', minute: '2-digit' };
-    const optionsDate = { day: '2-digit', month: 'long', year: 'numeric' };
-    const time = date.toLocaleTimeString('en-GB', optionsTime); // '09:38'
-    const formattedDate = date.toLocaleDateString('en-GB', optionsDate).toUpperCase();
+    const optionsTime = { hour: "2-digit", minute: "2-digit" };
+    const optionsDate = { day: "2-digit", month: "long", year: "numeric" };
+    const time = date.toLocaleTimeString("en-GB", optionsTime); // '09:38'
+    const formattedDate = date
+      .toLocaleDateString("en-GB", optionsDate)
+      .toUpperCase();
 
-    return `${time} | ${formattedDate}`
-  }
+    return `${time} | ${formattedDate}`;
+  };
   return (
     <>
       <div className="container-fuit nav">
@@ -123,17 +129,21 @@ export default function Home() {
 
       <section className="all-notes">
         <div className="notes-grid">
-          {notes.length !== 0 ? notes.map((item) => (
+          {notes.length !== 0 ? (
+            notes.map((item) => (
               <div key={item._id} className="note-card red">
                 <h3>{item.title}</h3>
-                <p>
-                 {item.description}
-                </p>
-                <span className="timestamp">{frmatingDate(item.createdAt)}</span>
+                <p>{item.description}</p>
+                <span className="timestamp">
+                  {frmatingDate(item.createdAt)}
+                </span>
               </div>
-          )):(
+            ))
+          ) : (
             <div>
-              <span>Oops, it looks like you don&apos;t have any notes . . .</span>
+              <span>
+                Oops, it looks like you don&apos;t have any notes . . .
+              </span>
             </div>
           )}
         </div>
