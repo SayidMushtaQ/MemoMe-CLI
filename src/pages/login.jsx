@@ -5,9 +5,10 @@ import { useState } from "react";
 import { validate } from "../helper/signinValidate.js";
 import { ErrorNotify, SuccessNotify } from "../util/notify.js";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hook/useAuth.js";
 export default function Signin() {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const { loading } = useAuth();
   const [formData, setFormData] = useState({
     userIdentifier: "",
     password: "",
@@ -21,7 +22,6 @@ export default function Signin() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
@@ -33,16 +33,13 @@ export default function Signin() {
           body: JSON.stringify({ ...formData }),
         });
         if (!res.ok) {
-          setLoading(false);
           return ErrorNotify("Something went wrong during LOGIN,try again.");
         }
         const data = await res.json();
-        if (data.success) {
-          SuccessNotify("User loged in successfully 🚀🥳");
-          setLoading(false);
-          return navigate("/");
+        if (data.success && !loading) {
+          navigate('/')
+          return SuccessNotify("User loged in successfully 🚀🥳");
         }
-        setLoading(false);
       } catch (err) {
         console.log(err);
         return ErrorNotify(
@@ -53,22 +50,6 @@ export default function Signin() {
       Object.values(validationError).forEach((error) => ErrorNotify(error));
     }
   };
-  if (loading) {
-    return (
-      <div
-        className="loading"
-        style={{
-          width: "100%",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <span>Loading. . . 😴</span>
-      </div>
-    );
-  }
   return (
     <>
       <div className="body">

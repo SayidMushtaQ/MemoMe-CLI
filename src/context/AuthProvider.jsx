@@ -6,7 +6,7 @@ import Cookie from "js-cookie";
 const AuthContext = createContext(undefined);
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(Cookie.get('authToken') || null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const token = Cookie.get("authToken");
@@ -29,6 +29,7 @@ export default function AuthProvider({ children }) {
         }
       })();
     }
+    setLoading(false)
   }, []);
   return <AuthContext.Provider value={{user,loading}}>{children}</AuthContext.Provider>;
 }
