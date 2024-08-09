@@ -16,8 +16,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />}></Route>
           <Route path="/verify" element={<Verify />} />
-            <Route path="/sent-verify" element={<SentVerification />} />
           <Route element={<PrivateRoute />}>
+            <Route path="/sent-verify" element={<SentVerification />} />
             <Route path="/" element={<Home />} />
           </Route>
         </Routes>
