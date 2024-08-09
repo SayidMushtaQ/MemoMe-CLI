@@ -1,14 +1,11 @@
-import { useLocation } from "react";
 import { useAuth } from "../hook/useAuth";
-import {Navigate} from 'react-router-dom'
+import { Navigate, Outlet } from "react-router-dom";
 
-const EXCLUDE_PATHS = ["/login", "/register","/verify"];
-
-export default function AuthenticateUser({children}) {
+export default function AuthenticateUser() {
   const { loading, user } = useAuth();
-  const location = useLocation();
   if (loading) {
-    <div
+    return (
+      <div
         className="loading"
         style={{
           width: "100%",
@@ -20,13 +17,7 @@ export default function AuthenticateUser({children}) {
       >
         <span>Loading. . . 😴</span>
       </div>
+    );
   }
-  const isExcludePath = EXCLUDE_PATHS.includes(location.pathname);
-  if (user && isExcludePath) {
-    return <Navigate to={"/"} />;
-  }
-  if (!user) {
-    return <Navigate to={"/login"} />;
-  }
-  return children;
+  return user ? <Outlet /> : <Navigate to="/login" />;
 }
