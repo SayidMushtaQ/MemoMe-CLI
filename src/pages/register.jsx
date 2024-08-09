@@ -7,6 +7,7 @@ import { ErrorNotify, SuccessNotify } from "../util/notify.js";
 import { sendVerifyCode } from "../util/sendVerifyCode.js";
 export default function SignUp() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     userName: "",
     email: "",
@@ -20,6 +21,7 @@ export default function SignUp() {
     });
   };
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const validationError = validate(formData);
 
@@ -33,6 +35,7 @@ export default function SignUp() {
           body: JSON.stringify({ ...formData }),
         });
         if (!res.ok && res.status == 409) {
+          setLoading(false);
           return ErrorNotify("User Already Exists, please LOGIN 🐢");
         }
         const data = await res.json();
@@ -44,8 +47,10 @@ export default function SignUp() {
             localStorage.setItem("user_email", data.data.email);
             SuccessNotify("OTP has been sent to your email successfully");
           }
+          setLoading(false);
           return navigate("/verify");
         }
+        setLoading(false);
       } catch (err) {
         console.log(err);
         return ErrorNotify(
@@ -56,7 +61,22 @@ export default function SignUp() {
       Object.values(validationError).forEach((error) => ErrorNotify(error));
     }
   };
-
+  if (loading) {
+    return (
+      <div
+        className="loading"
+        style={{
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <span>Loading. . . 😴</span>
+      </div>
+    );
+  }
   return (
     <div className="body">
       <div className="container">

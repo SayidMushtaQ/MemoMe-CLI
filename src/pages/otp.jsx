@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Verify() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const user_email = localStorage.getItem("user_email");
   const [otp, setOtp] = useState(new Array(4).fill(""));
   const otpBoxRef = useRef([]);
@@ -24,6 +25,7 @@ export default function Verify() {
     }
   };
   const handleSubmit = async (e) => {
+    setLoading(true)
     e.preventDefault();
     try {
       const res = await fetch("/api/auth/verifyEmail", {
@@ -34,14 +36,17 @@ export default function Verify() {
         body: JSON.stringify({ userIdentifier: user_email, otp: otp.join("") }),
       });
       if (!res.ok) {
+        setLoading(false)
         return ErrorNotify("Something went wrong. Please try again 🫡");
       }
       const data = await res.json();
       if (data.success && res.ok) {
         localStorage.removeItem("user_email");
         SuccessNotify("User verification successful🎉");
+        setLoading(false)
         return navigate("/login");
       }
+      setLoading(false)
     } catch (err) {
       console.log(err);
       return ErrorNotify(
@@ -49,6 +54,22 @@ export default function Verify() {
       );
     }
   };
+  if (loading) {
+    return (
+      <div
+        className="loading"
+        style={{
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <span>Loading. . . 😴</span>
+      </div>
+    );
+  }
   return (
     <>
       <div className="body">
