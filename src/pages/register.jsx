@@ -27,7 +27,7 @@ export default function SignUp() {
 
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch("/api/auth/register", {
+        const res = await fetch(`${import.meta.env.NODE_URI}/auth/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

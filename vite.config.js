@@ -7,7 +7,7 @@ export default defineConfig({
   server:{
     proxy:{
       '/api':{
-        target:'https://memome-srv.onrender.com/api/v1',
+        target:'http://localhost:8000/api/v1',
         changeOrigin: true,
         rewrite:path=>path.replace(/^\/api/, '')
       },
