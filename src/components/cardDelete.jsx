@@ -1,15 +1,18 @@
 import { ErrorNotify, SuccessNotify } from "../util/notify";
-export default function Delete({ noteID }) {
+export default function Delete({ noteID,setNotes }) {
   const handleDelete = async (noteID) => {
     try {
-      await fetch("/api/note/delete", {
+     const res = await fetch("/api/note/delete", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ noteID }),
       });
-      return SuccessNotify("Note deleted successfully😊");
+      if(res.ok){
+        setNotes((preNotes)=>preNotes.filter((item)=>item._id!=noteID))
+        return SuccessNotify("Note deleted successfully😊");
+      }
     } catch (err) {
       return ErrorNotify(
         "An error occurred while creating the note. Please try again 🫡🫠"
