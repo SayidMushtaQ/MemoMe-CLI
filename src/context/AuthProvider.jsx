@@ -11,7 +11,7 @@ export default function AuthProvider({ children }) {
       (async () => {
         try {
           const res = await fetch("/api/auth/user", {
-            method: "POST",
+            method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
