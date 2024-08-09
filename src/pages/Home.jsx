@@ -159,7 +159,7 @@ export default function Home() {
                   {frmatingDate(item.createdAt)}
                 </span>
                 <div className="card-action">
-                  <Delete noteID={item._id} />
+                  <Delete noteID={item._id} setNotes={setNotes}/>
                   <Edit
                     title={item.title}
                     description={item.description}

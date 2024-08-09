@@ -97,6 +97,8 @@ li.icon{
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 2rem;
+    margin: auto;
+    width: 60.5%;
 }
 
 .note-card {
@@ -147,7 +149,7 @@ li.icon{
 }
 .all-notes{
     margin-top: 570px;
-    margin-left: 197px;
+    margin-bottom: 5rem;
     
 }
 .all-notes2{
