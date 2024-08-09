@@ -102,7 +102,6 @@ export default function Home() {
           <div className="h2">
             <h1>TAKE YOUR NOTES</h1>
           </div>
-
           <div className="container add">
             <form onSubmit={handleSubmit}>
               <div className="form-group">

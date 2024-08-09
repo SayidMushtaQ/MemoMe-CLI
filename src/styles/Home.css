@@ -15,7 +15,7 @@ body.active-model{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
 }
 h1{
     font-family: "Inter", sans-serif;
@@ -54,9 +54,9 @@ li.icon{
     margin-top: 40px;
     color: black;
     font-family: "Inter", sans-serif;
-    font-weight: 600; 
-    text-align: left;
-    width: 55dvw;
+    font-weight: 600;
+    width: 40%;
+    text-align: end;
 }
 
 .add{
