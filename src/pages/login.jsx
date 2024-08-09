@@ -113,7 +113,7 @@ export default function Signin() {
             <div className="account">
               {/* <p><a href="#">Create an account</a></p> */}
               <p>
-                <Link to={"/SignUp"} id="SignUp">
+                <Link to={"/register"} id="SignUp">
                   Create an account
                 </Link>
               </p>
