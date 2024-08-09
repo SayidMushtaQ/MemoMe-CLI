@@ -4,11 +4,11 @@ import signin from "../image/main_2.jpg";
 import { useState } from "react";
 import { validate } from "../helper/signinValidate.js";
 import { ErrorNotify, SuccessNotify } from "../util/notify.js";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hook/useAuth.js";
+import {useNavigate} from 'react-router-dom'
 export default function Signin() {
+  const { setUser } = useAuth();
   const navigate = useNavigate();
-  const { loading } = useAuth();
   const [formData, setFormData] = useState({
     userIdentifier: "",
     password: "",
@@ -36,7 +36,8 @@ export default function Signin() {
           return ErrorNotify("Something went wrong during LOGIN,try again.");
         }
         const data = await res.json();
-        if (data.success && !loading) {
+        if (data.success) {
+          setUser(data.data)
           navigate('/')
           return SuccessNotify("User loged in successfully 🚀🥳");
         }

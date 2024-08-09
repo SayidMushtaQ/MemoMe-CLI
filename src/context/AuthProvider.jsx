@@ -1,12 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import Cookie from "js-cookie";
-
-
-
 const AuthContext = createContext(undefined);
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(Cookie.get('authToken') || null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const token = Cookie.get("authToken");
@@ -20,18 +17,24 @@ export default function AuthProvider({ children }) {
               "Content-Type": "application/json",
             },
           });
-          const {data} = await res.json();
-          setUser(data.user)
-          setLoading(false);
+          const { data } = await res.json();
+          setUser(data.user);
         } catch (err) {
           console.log(err);
           setLoading(false);
+        } finally {
+          setLoading(false);
         }
       })();
+    } else {
+      setLoading(false);
     }
-    setLoading(false)
   }, []);
-  return <AuthContext.Provider value={{user,loading}}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, setUser, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
-export {AuthContext}
+export { AuthContext };

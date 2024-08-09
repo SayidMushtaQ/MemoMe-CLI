@@ -6,19 +6,23 @@ import Login from "./pages/login.jsx";
 import Verify from "./pages/otp.jsx";
 import Home from "./pages/Home.jsx";
 import PrivateRoute from "./middleware/authenticateUser.jsx";
-
+import AuthProvider from "./context/AuthProvider.jsx";
+import SentVerification from "./pages/sent-verification.jsx";
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />}></Route>
-        <Route path="/verify" element={<Verify />} />
-        <Route element={<PrivateRoute />}>
-          <Route path="/" element={<Home />} />
-        </Route>
-      </Routes>
-      <ToastContainer />
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="/verify" element={<Verify />} />
+            <Route path="/sent-verify" element={<SentVerification />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/" element={<Home />} />
+          </Route>
+        </Routes>
+        <ToastContainer />
+      </AuthProvider>
     </BrowserRouter>
   );
 }
