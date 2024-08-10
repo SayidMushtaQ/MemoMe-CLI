@@ -31,7 +31,7 @@ export default function Signin() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...formData }),
-          credentials:'include'
+         credentials: 'include'
         });
         if (!res.ok) {
           return ErrorNotify("Something went wrong during LOGIN,try again.");

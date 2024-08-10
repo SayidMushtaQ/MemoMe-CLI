@@ -2,8 +2,7 @@
   "name": "notes_maker",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
-  "proxy":"https://memome-srv.onrender.com/api/v1",
+  "type": "module"
   "scripts": {
     "dev": "vite",
     "build": "vite build",

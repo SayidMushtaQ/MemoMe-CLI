@@ -6,6 +6,7 @@ export const sendVerifyCode = async (userIdentifier) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ userIdentifier }),
+      credentials: 'include'
     });
     return {otpRes:res};
   } catch (err) {
