@@ -27,7 +27,7 @@ export default function SignUp() {
 
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch("/api/auth/register", {
+        const res = await fetch("https://memome-srv.onrender.com/api/v1/auth/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

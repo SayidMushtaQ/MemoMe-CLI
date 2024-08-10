@@ -1,6 +1,6 @@
 export const sendVerifyCode = async (userIdentifier) => {
   try {
-    const res = await fetch("/api/auth/sentVerifyCode", {
+    const res = await fetch("https://memome-srv.onrender.com/api/v1/auth/sentVerifyCode", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
