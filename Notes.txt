@@ -1,5 +1,0 @@
-[+]Sign in and Sign up
- -> Get user data from forms and validate
- -> Send data accordingly
- -> Manage user
-Use Fetch and Vanila JS

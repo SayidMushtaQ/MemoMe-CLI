@@ -7,6 +7,7 @@ export default function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const token = Cookie.get("authToken");
+    console.log(token)
     if (token) {
       (async () => {
         try {
