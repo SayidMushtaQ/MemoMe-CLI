@@ -17,6 +17,7 @@ export default function AuthProvider({ children }) {
               Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
+            credentials:'include'
           });
           const { data } = await res.json();
           setUser(data.user);
