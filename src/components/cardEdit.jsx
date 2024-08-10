@@ -12,7 +12,7 @@ export default function Edit({ title, description, noteID, setNotes }) {
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch("https://memome-srv.onrender.com/api/v1/note/update", {
+        const res = await fetch("/api/note/update", {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
