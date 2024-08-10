@@ -35,6 +35,7 @@ export default function Home() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...formData }),
+          credentials:'include'
         });
         const data = await res.json();
         if (data.success) {
@@ -57,7 +58,7 @@ export default function Home() {
     }
   };
   useEffect(() => {
-    fetch("/api/note/notes")
+    fetch("/api/note/notes",{credentials:'include'})
       .then((res) => res.json())
       .then(({ data }) => {
         setNotes(
