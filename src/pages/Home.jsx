@@ -60,6 +60,7 @@ export default function Home() {
     fetch("https://memome-srv.onrender.com/api/v1/note/notes")
       .then((res) => res.json())
       .then(({ data }) => {
+        console.log(data)
         setNotes(
           data.notes.sort(
             (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
