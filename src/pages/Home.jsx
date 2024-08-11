@@ -22,7 +22,7 @@ export default function Home() {
     title: "",
     description: "",
   });
-  const {user} = useAuth()
+  const {user,authToken} = useAuth()
   const [notes, setNotes] = useState([]);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +32,7 @@ export default function Home() {
         const res = await fetch("/api/note/create", {
           method: "POST",
           headers: {
+            Authorization: `Bearer ${authToken}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...formData }),
