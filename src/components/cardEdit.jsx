@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { validate } from "../helper/homeValidate";
 import { ErrorNotify, SuccessNotify } from "../util/notify";
+import Cookie from 'js-cookie'
 export default function Edit({ title, description, noteID, setNotes }) {
   const [edit, setEdit] = useState(false);
+  const token = Cookie.get("authToken");
   const [formData, setFormData] = useState({
     title,
     description,
@@ -15,6 +17,7 @@ export default function Edit({ title, description, noteID, setNotes }) {
         const res = await fetch("https://memome-srv.onrender.com/api/v1/note/update", {
           method: "PATCH",
           headers: {
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...formData, noteID }),
