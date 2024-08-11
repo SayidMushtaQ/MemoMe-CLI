@@ -25,7 +25,7 @@ export default function Signin() {
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch("/api/auth/login", {
+        const res = await fetch("/api/v1/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
