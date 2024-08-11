@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { ErrorNotify, SuccessNotify } from "../util/notify";
 import Edit from "../components/cardEdit";
 import Delete from "../components/cardDelete";
-import Profile from '../components/userProfile'
-import {useAuth} from '../hook/useAuth'
+import Profile from "../components/userProfile";
+import { useAuth } from "../hook/useAuth";
 const getColor = (index) => {
   if (index % 3 === 0) {
     //0,3,6,9,12
@@ -22,7 +22,7 @@ export default function Home() {
     title: "",
     description: "",
   });
-  const {user,authToken} = useAuth()
+  const { user, authToken } = useAuth();
   const [notes, setNotes] = useState([]);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ export default function Home() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...formData }),
-          credentials:'include'
+          credentials: "include",
         });
         const data = await res.json();
         if (data.success) {
@@ -59,7 +59,12 @@ export default function Home() {
     }
   };
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URI}/note/notes`,{credentials: 'include'})
+    fetch(`${import.meta.env.VITE_API_URI}/note/notes`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "Content-Type": "application/json",
+      },
+    })
       .then((res) => res.json())
       .then(({ data }) => {
         setNotes(
@@ -88,7 +93,7 @@ export default function Home() {
           <div className="col-12 col-xl-12 col-l-12 col-md-12 col-sm-12">
             <h1>THE NOTES TAKER</h1>
             <ul className="u">
-              <Profile email={user.email} userName={user.userName}/>
+              <Profile email={user.email} userName={user.userName} />
             </ul>
           </div>
         </div>
@@ -154,7 +159,7 @@ export default function Home() {
                   {frmatingDate(item.createdAt)}
                 </span>
                 <div className="card-action">
-                  <Delete noteID={item._id} setNotes={setNotes}/>
+                  <Delete noteID={item._id} setNotes={setNotes} />
                   <Edit
                     title={item.title}
                     description={item.description}
