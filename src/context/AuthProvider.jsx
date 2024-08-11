@@ -19,6 +19,7 @@ export default function AuthProvider({ children }) {
             credentials: "include"
           });
           const { data } = await res.json();
+          console.log(res)
           setUser(data.user);
         } catch (err) {
           console.log(err);
