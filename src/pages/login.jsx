@@ -32,7 +32,6 @@ export default function Signin() {
           },
           body: JSON.stringify({ ...formData })
         });
-        console.log(res);
         if (!res.ok) {
           return ErrorNotify("Something went wrong during LOGIN,try again.");
         }
