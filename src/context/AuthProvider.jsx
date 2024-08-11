@@ -10,7 +10,7 @@ export default function AuthProvider({ children }) {
     if (token) {
       (async () => {
         try {
-          const res = await fetch("/api/auth/user", {
+          const res = await fetch("https://memome-srv.onrender.com/api/v1/auth/user", {
             method: "GET",
             headers: {
               Authorization: `Bearer ${token}`,
