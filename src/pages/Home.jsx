@@ -58,7 +58,7 @@ export default function Home() {
     }
   };
   useEffect(() => {
-    fetch("/api/note/notes",{credentials: "include"})
+    fetch("https://memome-srv.onrender.com/api/v1/note/notes",{credentials: "include"})
       .then((res) => res.json())
       .then(({ data }) => {
         setNotes(
