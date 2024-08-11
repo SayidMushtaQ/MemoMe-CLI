@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { validate } from "../helper/homeValidate";
 import { ErrorNotify, SuccessNotify } from "../util/notify";
-import { useAuth } from "../hook/useAuth";
+
 export default function Edit({ title, description, noteID, setNotes }) {
   const [edit, setEdit] = useState(false);
-  const {authToken} = useAuth()
   const [formData, setFormData] = useState({
     title,
     description,
@@ -14,11 +13,10 @@ export default function Edit({ title, description, noteID, setNotes }) {
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URI}/note/update`, {
+        const res = await fetch(`/api/note/update`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify({ ...formData, noteID }),
         });

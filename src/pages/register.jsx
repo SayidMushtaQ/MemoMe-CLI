@@ -27,13 +27,13 @@ export default function SignUp() {
 
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_URI}/auth/register`, {
+        const res = await fetch("/api/auth/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...formData }),
-          credentials:'include'
+          credentials: "include",
         });
         if (!res.ok && res.status == 409) {
           setLoading(false);
