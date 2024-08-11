@@ -6,6 +6,7 @@ import { validate } from "../helper/signinValidate.js";
 import { ErrorNotify, SuccessNotify } from "../util/notify.js";
 import { useAuth } from "../hook/useAuth.js";
 import {useNavigate} from 'react-router-dom'
+import Cookie from 'js-cookie'
 export default function Signin() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
@@ -38,7 +39,9 @@ export default function Signin() {
         }
         const data = await res.json();
         if (data.success) {
+          console.log(data)
           setUser(data.data)
+          Cookie.set('authToken',data.data.token)
           navigate('/')
           return SuccessNotify("User loged in successfully 🚀🥳");
         }
