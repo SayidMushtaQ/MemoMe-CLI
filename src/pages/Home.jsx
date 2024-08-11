@@ -29,7 +29,7 @@ export default function Home() {
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch("/api/v1/note/create", {
+        const res = await fetch("/api/note/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export default function Home() {
     }
   };
   useEffect(() => {
-    fetch("/api/v1/note/notes")
+    fetch("/api/note/notes")
       .then((res) => res.json())
       .then(({ data }) => {
         setNotes(

@@ -28,7 +28,7 @@ export default function Verify() {
     setLoading(true);
     e.preventDefault();
     try {
-      const res = await fetch("/api/v1/auth/verifyEmail", {
+      const res = await fetch("/api/auth/verifyEmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
