@@ -25,13 +25,14 @@ export default function Signin() {
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch("/api/auth/login", {
+        const res = await fetch("https://memome-srv.onrender.com/api/v1/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ ...formData })
         });
+        console.log(res);
         if (!res.ok) {
           return ErrorNotify("Something went wrong during LOGIN,try again.");
         }
