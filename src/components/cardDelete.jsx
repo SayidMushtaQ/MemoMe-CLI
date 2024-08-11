@@ -1,13 +1,10 @@
 import { ErrorNotify, SuccessNotify } from "../util/notify";
-import Cookie from 'js-cookie'
 export default function Delete({ noteID,setNotes }) {
-  const token = Cookie.get("authToken");
   const handleDelete = async (noteID) => {
     try {
-     const res = await fetch("https://memome-srv.onrender.com/api/v1/note/delete", {
+     const res = await fetch("/api/note/delete", {
         method: "DELETE",
         headers: {
-          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ noteID }),

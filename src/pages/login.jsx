@@ -5,7 +5,7 @@ import { useState } from "react";
 import { validate } from "../helper/signinValidate.js";
 import { ErrorNotify, SuccessNotify } from "../util/notify.js";
 import { useAuth } from "../hook/useAuth.js";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from 'react-router-dom'
 export default function Signin() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
@@ -25,20 +25,21 @@ export default function Signin() {
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch("https://memome-srv.onrender.com/api/v1/auth/login", {
+        const res = await fetch("/api/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ ...formData })
+          body: JSON.stringify({ ...formData }),
+         credentials: 'include'
         });
         if (!res.ok) {
           return ErrorNotify("Something went wrong during LOGIN,try again.");
         }
         const data = await res.json();
         if (data.success) {
-          setUser(data.data);
-          navigate("/");
+          setUser(data.data)
+          navigate('/')
           return SuccessNotify("User loged in successfully 🚀🥳");
         }
       } catch (err) {

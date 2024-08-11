@@ -25,28 +25,29 @@ export default function Verify() {
     }
   };
   const handleSubmit = async (e) => {
-    setLoading(true);
+    setLoading(true)
     e.preventDefault();
     try {
-      const res = await fetch("https://memome-srv.onrender.com/api/v1/auth/verifyEmail", {
+      const res = await fetch("/api/auth/verifyEmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userIdentifier: user_email, otp: otp.join("") })
+        body: JSON.stringify({ userIdentifier: user_email, otp: otp.join("") }),
+        credentials: 'include'
       });
       if (!res.ok) {
-        setLoading(false);
+        setLoading(false)
         return ErrorNotify("Something went wrong. Please try again 🫡");
       }
       const data = await res.json();
       if (data.success && res.ok) {
         localStorage.removeItem("user_email");
         SuccessNotify("User verification successful🎉");
-        setLoading(false);
+        setLoading(false)
         return navigate("/login");
       }
-      setLoading(false);
+      setLoading(false)
     } catch (err) {
       console.log(err);
       return ErrorNotify(
