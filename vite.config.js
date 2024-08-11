@@ -9,7 +9,7 @@ export default defineConfig({
       '/api':{
         target:'https://memome-srv.onrender.com/api/v1',
         changeOrigin: true,
-        rewrite:path=>path.replace(/^\/api/, '')
+        cookieDomainRewrite: ''
       },
     }
   }
