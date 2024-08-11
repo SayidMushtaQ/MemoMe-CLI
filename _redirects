@@ -1,0 +1,5 @@
+# Redirect all API requests to the backend
+/api/*    https://memome-srv.onrender.com/api/v1/:splat    200
+
+# Redirect all other requests to index.html (SPA fallback)
+/*    /index.html    200
