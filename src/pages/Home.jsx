@@ -29,7 +29,7 @@ export default function Home() {
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch("/api/note/create", {
+        const res = await fetch(`${import.meta.env.VITE_API_URI}/note/create`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -59,7 +59,7 @@ export default function Home() {
     }
   };
   useEffect(() => {
-    fetch("/api/note/notes",{credentials: 'include'})
+    fetch(`${import.meta.env.VITE_API_URI}/note/notes`,{credentials: 'include'})
       .then((res) => res.json())
       .then(({ data }) => {
         setNotes(
