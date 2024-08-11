@@ -14,7 +14,6 @@ export default function AuthProvider({ children }) {
           const res = await fetch("/api/auth/user", {
             method: "GET",
             headers: {
-              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
             credentials: "include"
