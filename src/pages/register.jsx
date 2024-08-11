@@ -32,8 +32,7 @@ export default function SignUp() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ ...formData }),
-          credentials: "include",
+          body: JSON.stringify({ ...formData })
         });
         if (!res.ok && res.status == 409) {
           setLoading(false);

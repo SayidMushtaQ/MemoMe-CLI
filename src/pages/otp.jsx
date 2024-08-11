@@ -33,8 +33,7 @@ export default function Verify() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userIdentifier: user_email, otp: otp.join("") }),
-        credentials: "include",
+        body: JSON.stringify({ userIdentifier: user_email, otp: otp.join("") })
       });
       if (!res.ok) {
         setLoading(false);

@@ -30,8 +30,7 @@ export default function Signin() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ ...formData }),
-          credentials: "include",
+          body: JSON.stringify({ ...formData })
         });
         if (!res.ok) {
           return ErrorNotify("Something went wrong during LOGIN,try again.");
