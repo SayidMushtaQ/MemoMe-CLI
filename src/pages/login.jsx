@@ -40,7 +40,7 @@ export default function Signin() {
         const data = await res.json();
         if (data.success) {
           setUser(data.data)
-          Cookie.set('token',data.data.token)
+          Cookie.set('authToken',data.data.token)
           navigate('/')
           return SuccessNotify("User loged in successfully 🚀🥳");
         }
