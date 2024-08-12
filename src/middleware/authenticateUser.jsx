@@ -5,6 +5,7 @@ export default function AuthenticateUser() {
   const { user, loading } = useAuth();
   const location = useLocation();
   if (loading) {
+    console.log('loading')
     return (
       <div
         className="loading"

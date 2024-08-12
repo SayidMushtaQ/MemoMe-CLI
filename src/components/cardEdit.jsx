@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { validate } from "../helper/homeValidate";
 import { ErrorNotify, SuccessNotify } from "../util/notify";
-
+import {useAuth} from '../hook/useAuth'
 export default function Edit({ title, description, noteID, setNotes }) {
   const [edit, setEdit] = useState(false);
-  const authToken = localStorage.getItem("authToken");
+  const {authToken} = useAuth()
   const [formData, setFormData] = useState({
     title,
     description,

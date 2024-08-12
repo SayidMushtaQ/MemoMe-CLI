@@ -9,6 +9,7 @@ import {useNavigate} from 'react-router-dom'
 export default function Signin() {
   const { setUser } = useAuth();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     userIdentifier: "",
     password: "",
@@ -21,6 +22,7 @@ export default function Signin() {
     });
   };
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
@@ -34,18 +36,20 @@ export default function Signin() {
          credentials: 'include'
         });
         if (!res.ok) {
+          setLoading(false);
           return ErrorNotify("Something went wrong during LOGIN,try again.");
         }
         const data = await res.json();
         if (data.success) {
           setUser(data.data)
-          console.log(data)
           localStorage.setItem('authToken',data.data.token)
+          setLoading(false);
           navigate('/')
           return SuccessNotify("User loged in successfully 🚀🥳");
         }
       } catch (err) {
         console.log(err);
+        setLoading(false);
         return ErrorNotify(
           "An error occurred while creating the user. Please try again 🫡🫠"
         );
@@ -54,6 +58,22 @@ export default function Signin() {
       Object.values(validationError).forEach((error) => ErrorNotify(error));
     }
   };
+  if (loading) {
+    return (
+      <div
+        className="loading"
+        style={{
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <span>Loading. . . 😴</span>
+      </div>
+    );
+  }
   return (
     <>
       <div className="body">

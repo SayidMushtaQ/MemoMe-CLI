@@ -22,8 +22,7 @@ export default function Home() {
     title: "",
     description: "",
   });
-  const { user } = useAuth();
-  const authToken = localStorage.getItem('authToken')
+  const { user, authToken } = useAuth();
   const [notes, setNotes] = useState([]);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,7 +77,7 @@ export default function Home() {
           )
         );
       });
-  }, [setNotes,authToken]);
+  }, [setNotes, authToken]);
   const frmatingDate = (timestamp) => {
     const date = new Date(timestamp);
     const optionsTime = { hour: "2-digit", minute: "2-digit" };

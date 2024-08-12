@@ -51,9 +51,9 @@ export default function SignUp() {
           setLoading(false);
           return navigate("/verify");
         }
-        setLoading(false);
       } catch (err) {
         console.log(err);
+        setLoading(false);
         return ErrorNotify(
           "An error occurred while creating the user. Please try again 🫡🫠"
         );

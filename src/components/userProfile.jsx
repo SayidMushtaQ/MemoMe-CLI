@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
+import {useAuth} from '../hook/useAuth'
 export default function Profile({email,userName}) {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  const {setUser} = useAuth()
   const handleLogOut = ()=>{
     localStorage.removeItem('authToken');
+    setUser(null)
     navigate('/login')
   }
   return (

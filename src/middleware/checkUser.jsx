@@ -2,9 +2,10 @@ import { useAuth } from "../hook/useAuth";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { userExcludePaths } from "../constants";
 export default function CheckUser() {
-  const { user, loading } = useAuth();
+  const { user,loading } = useAuth();
   const location = useLocation();
   if (loading) {
+    console.log('loading')
     return (
       <div
         className="loading"
@@ -20,7 +21,6 @@ export default function CheckUser() {
       </div>
     );
   }
-  console.log(user);
   return user &&
     userExcludePaths.includes(location.pathname) &&
     user.isVerified ? (

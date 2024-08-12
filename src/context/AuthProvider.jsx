@@ -3,10 +3,10 @@ const AuthContext = createContext(undefined);
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading,setLoading] = useState(true)
+  const authToken = localStorage.getItem("authToken");
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
+    if (authToken) {
       (async () => {
         try {
           const res = await fetch(
@@ -14,7 +14,7 @@ export default function AuthProvider({ children }) {
             {
               method: "GET",
               headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${authToken}`,
                 "Content-Type": "application/json",
               },
               credentials: "include",
@@ -22,19 +22,18 @@ export default function AuthProvider({ children }) {
           );
           const { data } = await res.json();
           setUser(data.user);
+          setLoading(false)
         } catch (err) {
+          setLoading(false)
           console.log(err);
-          setLoading(false);
-        } finally {
-          setLoading(false);
         }
       })();
-    } else {
-      setLoading(false);
+    }else{
+      setLoading(false)
     }
-  }, []);
+  }, [authToken]);
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
+    <AuthContext.Provider value={{ user, setUser,authToken,loading }}>
       {children}
     </AuthContext.Provider>
   );
