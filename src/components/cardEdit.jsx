@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { validate } from "../helper/homeValidate";
 import { ErrorNotify, SuccessNotify } from "../util/notify";
-
+import {useAuth} from '../hook/useAuth'
 export default function Edit({ title, description, noteID, setNotes }) {
   const [edit, setEdit] = useState(false);
+  const {authToken} = useAuth()
   const [formData, setFormData] = useState({
     title,
     description,
@@ -17,6 +18,7 @@ export default function Edit({ title, description, noteID, setNotes }) {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify({ ...formData, noteID }),
         });

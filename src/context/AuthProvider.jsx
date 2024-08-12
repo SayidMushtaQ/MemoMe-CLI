@@ -5,6 +5,8 @@ const AuthContext = createContext(undefined);
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authToken,setToken] = useState(null)
+  console.log(authToken)
   useEffect(() => {
     const token = Cookie.get("authToken");
     if (token) {
@@ -21,7 +23,8 @@ export default function AuthProvider({ children }) {
             }
           );
           const { data } = await res.json();
-
+          console.log(data)
+          setToken(data.user.token)
           setUser(data.user);
         } catch (err) {
           console.log(err);
@@ -35,7 +38,7 @@ export default function AuthProvider({ children }) {
     }
   }, []);
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
+    <AuthContext.Provider value={{ user, setUser, loading,authToken,setToken }}>
       {children}
     </AuthContext.Provider>
   );

@@ -20,7 +20,7 @@ export default function CheckUser() {
       </div>
     );
   }
-  console.log(user.isVerified);
+  console.log(user);
   return user &&
     userExcludePaths.includes(location.pathname) &&
     user.isVerified ? (

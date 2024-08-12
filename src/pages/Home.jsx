@@ -29,15 +29,18 @@ export default function Home() {
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/note/create`, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ...formData }),
-          credentials: "include",
-        });
+        const res = await fetch(
+          `${import.meta.env.VITE_API_BASE_URL}/note/create`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ...formData }),
+            credentials: "include",
+          }
+        );
         const data = await res.json();
         if (data.success) {
           setNotes((preNotes) => {
@@ -58,10 +61,12 @@ export default function Home() {
       Object.values(validationError).forEach((error) => ErrorNotify(error));
     }
   };
+  console.log(authToken)
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_BASE_URL}/note/notes`, {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
       },
     })
       .then((res) => res.json())
