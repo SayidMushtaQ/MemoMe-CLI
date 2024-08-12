@@ -24,6 +24,7 @@ export default function Home() {
   });
   const { user, authToken } = useAuth();
   const [notes, setNotes] = useState([]);
+  const [cardLoading, setCardLoading] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationError = validate(formData);
@@ -63,6 +64,7 @@ export default function Home() {
   };
 
   useEffect(() => {
+    setCardLoading(true);
     fetch(`${import.meta.env.VITE_API_BASE_URL}/note/notes`, {
       headers: {
         "Content-Type": "application/json",
@@ -71,6 +73,7 @@ export default function Home() {
     })
       .then((res) => res.json())
       .then(({ data }) => {
+        setCardLoading(false);
         setNotes(
           data.notes.sort(
             (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -175,9 +178,13 @@ export default function Home() {
             ))
           ) : (
             <div>
-              <span>
-                Oops, it looks like you don&apos;t have any notes . . .
-              </span>
+              {cardLoading ? (
+                <p>Loading your notes ...</p>
+              ) : (
+                <span>
+                  Oops, it looks like you don&apos;t have any notes . . .
+                </span>
+              )}
             </div>
           )}
         </div>
