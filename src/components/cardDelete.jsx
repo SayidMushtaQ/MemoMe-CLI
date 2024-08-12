@@ -2,7 +2,7 @@ import { ErrorNotify, SuccessNotify } from "../util/notify";
 export default function Delete({ noteID,setNotes }) {
   const handleDelete = async (noteID) => {
     try {
-     const res = await fetch('/api/note/delete', {
+     const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/note/delete`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

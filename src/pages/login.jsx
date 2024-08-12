@@ -26,7 +26,7 @@ export default function Signin() {
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch('https://memome-srv.onrender.com/api/v1/auth/login', {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

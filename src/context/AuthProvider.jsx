@@ -7,12 +7,10 @@ export default function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const token = Cookie.get("authToken");
-    console.log(token);
     if (token) {
       (async () => {
         try {
-          const res = await fetch(
-            "https://memome-srv.onrender.com/api/v1/auth/user",
+          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/user`,
             {
               method: "GET",
               headers: {
@@ -23,7 +21,7 @@ export default function AuthProvider({ children }) {
             }
           );
           const { data } = await res.json();
-          console.log(res);
+
           setUser(data.user);
         } catch (err) {
           console.log(err);

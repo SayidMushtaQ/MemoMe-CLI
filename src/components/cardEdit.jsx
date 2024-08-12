@@ -13,7 +13,7 @@ export default function Edit({ title, description, noteID, setNotes }) {
     const validationError = validate(formData);
     if (!Object.keys(validationError).length) {
       try {
-        const res = await fetch(`/api/note/update`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/note/update`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",

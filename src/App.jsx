@@ -8,14 +8,17 @@ import Home from "./pages/Home.jsx";
 import PrivateRoute from "./middleware/authenticateUser.jsx";
 import AuthProvider from "./context/AuthProvider.jsx";
 import SentVerification from "./pages/sent-verification.jsx";
+import CheckUser from "./middleware/checkUser.jsx";
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/verify" element={<Verify />} />
+          <Route element={<CheckUser />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />}></Route>
+            <Route path="/verify" element={<Verify />} />
+          </Route>
           <Route element={<PrivateRoute />}>
             <Route path="/sent-verify" element={<SentVerification />} />
             <Route path="/" element={<Home />} />

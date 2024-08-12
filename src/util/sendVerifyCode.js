@@ -1,6 +1,6 @@
 export const sendVerifyCode = async (userIdentifier) => {
   try {
-    const res = await fetch('/api/auth/sentVerifyCode', {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/sentVerifyCode`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

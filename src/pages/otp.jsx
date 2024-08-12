@@ -28,7 +28,7 @@ export default function Verify() {
     setLoading(true)
     e.preventDefault();
     try {
-      const res = await fetch('/api/auth/verifyEmail', {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/verifyEmail`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
