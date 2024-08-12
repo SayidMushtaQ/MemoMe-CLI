@@ -22,7 +22,8 @@ export default function Home() {
     title: "",
     description: "",
   });
-  const { user, authToken } = useAuth();
+  const { user } = useAuth();
+  const authToken = localStorage.getItem('authToken')
   const [notes, setNotes] = useState([]);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,7 +62,7 @@ export default function Home() {
       Object.values(validationError).forEach((error) => ErrorNotify(error));
     }
   };
-  console.log(authToken)
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_BASE_URL}/note/notes`, {
       headers: {
@@ -77,7 +78,7 @@ export default function Home() {
           )
         );
       });
-  }, [setNotes]);
+  }, [setNotes,authToken]);
   const frmatingDate = (timestamp) => {
     const date = new Date(timestamp);
     const optionsTime = { hour: "2-digit", minute: "2-digit" };

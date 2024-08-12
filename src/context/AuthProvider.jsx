@@ -1,18 +1,16 @@
 import { createContext, useEffect, useState } from "react";
-import Cookie from "js-cookie";
 const AuthContext = createContext(undefined);
 
 export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [authToken,setToken] = useState(null)
-  console.log(authToken)
   useEffect(() => {
-    const token = Cookie.get("authToken");
+    const token = localStorage.getItem("authToken");
     if (token) {
       (async () => {
         try {
-          const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/user`,
+          const res = await fetch(
+            `${import.meta.env.VITE_API_BASE_URL}/auth/user`,
             {
               method: "GET",
               headers: {
@@ -23,8 +21,6 @@ export default function AuthProvider({ children }) {
             }
           );
           const { data } = await res.json();
-          console.log(data)
-          setToken(data.user.token)
           setUser(data.user);
         } catch (err) {
           console.log(err);
@@ -38,7 +34,7 @@ export default function AuthProvider({ children }) {
     }
   }, []);
   return (
-    <AuthContext.Provider value={{ user, setUser, loading,authToken,setToken }}>
+    <AuthContext.Provider value={{ user, setUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

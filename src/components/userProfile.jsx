@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
-import Cookie from 'js-cookie'
 export default function Profile({email,userName}) {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const handleLogOut = ()=>{
-    Cookie.remove('authToken');
+    localStorage.removeItem('authToken');
     navigate('/login')
   }
   return (

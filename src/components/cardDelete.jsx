@@ -1,7 +1,7 @@
 import { ErrorNotify, SuccessNotify } from "../util/notify";
-import {useAuth} from '../hook/useAuth'
+
 export default function Delete({ noteID,setNotes }) {
-  const {authToken} = useAuth()
+  const authToken = localStorage.getItem('authToken')
   const handleDelete = async (noteID) => {
     try {
      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/note/delete`, {
