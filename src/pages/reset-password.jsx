@@ -15,8 +15,9 @@ export default function SentURIResetPassword() {
   const [newPassword, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {token} = useParams();
-  async function handleSubmit() {
+  const { token } = useParams();
+  async function handleSubmit(e) {
+    e.preventDefault();
     try {
       const validateError = ValidatePassword(newPassword);
       if (!Object.keys(validateError).length) {
@@ -34,11 +35,12 @@ export default function SentURIResetPassword() {
         if (!res.ok) {
           setLoading(false);
           return ErrorNotify("Something went wrong. Please try again 🫡");
-        } else {
-          setLoading(false);
-          SuccessNotify("Add new password successfully 👍");
-          return navigate('/login')
         }
+        console.log(res)
+        setLoading(false);
+        SuccessNotify("Add new password successfully 👍");
+        return navigate("/login");
+
       } else {
         Object.values(validateError).forEach((error) => ErrorNotify(error));
       }

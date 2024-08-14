@@ -3,8 +3,9 @@ import { ErrorNotify, SuccessNotify } from "../util/notify";
 export default function SentURIResetPassword() {
   const [userIdentifier, setUserIdentifier] = useState('');
   const [loading, setLoading] = useState(false);
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     setLoading(true)
+    e.preventDefault();
     try {
       if(!userIdentifier){
         return ErrorNotify("Email or userName is required🫠")
