@@ -126,10 +126,9 @@ export default function Signin() {
                 onChange={handleChange}
               />
 
-              <div className="remember-me">
-                <input type="checkbox" id="remember" name="remember" />
-                <label htmlFor="remember">Remember me</label>
-              </div>
+             <div style={{marginBottom:'20px'}}>
+              <Link to={'/sent-uri'}>Forgot password</Link>
+             </div>
 
               <button type="submit">Log in</button>
             </form>

@@ -9,13 +9,15 @@ import PrivateRoute from "./middleware/authenticateUser.jsx";
 import AuthProvider from "./context/AuthProvider.jsx";
 import SentVerification from "./pages/sent-verification.jsx";
 import CheckUser from "./middleware/checkUser.jsx";
-import ForgotPassword from "./pages/forgot-password.jsx";
+import SentURIResetPassword from "./pages/sent-uri-reset-password.jsx";
+import ResetPassword from "./pages/reset-password.jsx";
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/sent-uri" element={<SentURIResetPassword />} />
           <Route element={<CheckUser />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />}></Route>
