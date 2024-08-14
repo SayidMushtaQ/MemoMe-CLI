@@ -16,12 +16,12 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
-          <Route path="/sent-uri" element={<SentURIResetPassword />} />
           <Route element={<CheckUser />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />}></Route>
             <Route path="/verify" element={<Verify />} />
+            <Route path="/sent-uri" element={<SentURIResetPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
           </Route>
           <Route element={<PrivateRoute />}>
             <Route path="/sent-verify" element={<SentVerification />} />
