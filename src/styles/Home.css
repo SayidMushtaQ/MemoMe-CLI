@@ -123,6 +123,8 @@ li.icon{
 .note-card p {
     flex-grow: 1;
     color: black;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 .note-card .timestamp {
