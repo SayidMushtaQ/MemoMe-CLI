@@ -6,14 +6,13 @@ import Edit from "../components/cardEdit";
 import Delete from "../components/cardDelete";
 import Profile from "../components/userProfile";
 import { useAuth } from "../hook/useAuth";
-const getColor = (index) => {
-  if (index % 3 === 0) {
-    //0,3,6,9,12
+const getColor = (createdAt) => {
+  const currentHour = new Date(createdAt).getHours()
+  if (currentHour >= 5 && currentHour < 12) {
     return "red";
-  } else if (index % 3 === 1) {
-    //1,4,,7,10
+  } else if (currentHour >= 12 && currentHour < 18) {
     return "yellow";
-  } else {
+  } else if(currentHour >= 18 && currentHour < 21){
     return "blue";
   }
 };
@@ -159,7 +158,7 @@ export default function Home() {
         <div className="notes-grid">
           {notes.length !== 0 ? (
             notes.map((item, index) => (
-              <div key={item._id} className={`note-card ${getColor(index)}`}>
+              <div key={item._id} className={`note-card ${getColor(item.createdAt)}`}>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
                 <span className="timestamp">
